@@ -13,9 +13,18 @@
     label { font-weight: bold; margin-top: 10px; display: block; }
     input, button { width: 100%; padding: 10px; margin-top: 5px; border-radius: 6px; border: 1px solid #ccc; font-size: 16px; }
     canvas { border: 1px solid #ccc; border-radius: 6px; width: 100%; height: 150px; margin-top: 5px; }
-    .btn { background: #00695c; color: #fff; border: none; font-weight: bold; margin-top: 15px; }
+    .btn { background: #4caf50; color: #fff; border: none; font-weight: bold; margin-top: 15px; font-size: 18px; }
     .registro-box { background: #e0f2f1; padding: 10px; border-radius: 8px; margin-bottom: 15px; }
-    #mensaje { display:none; margin-top:15px; padding:12px; background:#4caf50; color:#fff; text-align:center; border-radius:8px; font-weight:bold; }
+    #mensajeConfirmacion {
+      display:none; position:fixed; top:40%; left:50%; transform:translate(-50%, -50%);
+      background:#4caf50; color:#fff; padding:20px 30px; border-radius:12px;
+      font-size:22px; font-weight:bold; text-align:center; z-index:9999;
+    }
+    #mensajeConfirmacion .icono {
+      display:inline-block; width:40px; height:40px; margin-right:10px;
+      border-radius:50%; background:#fff; color:#4caf50; font-size:28px;
+      line-height:40px; text-align:center; font-weight:bold;
+    }
   </style>
 </head>
 <body>
@@ -41,9 +50,11 @@
       <button type="button" id="limpiar">Limpiar firma</button>
       <label>Aclaración del destinatario (apellido)</label>
       <input type="text" id="aclaracion" required>
-      <button type="submit" class="btn">Generar PDF y enviar</button>
+      <button type="submit" class="btn">ENVIAR</button>
     </form>
-    <div id="mensaje"></div>
+    <div id="mensajeConfirmacion">
+      <span class="icono">✓</span> MENSAJE ENVIADO
+    </div>
   </div>
 
   <script>
@@ -91,9 +102,8 @@
         })
       });
 
-      // Mostrar mensaje en la página
-      const mensaje = document.getElementById('mensaje');
-      mensaje.innerText = 'Registro enviado correctamente';
+      // Mostrar mensaje en el centro de la pantalla
+      const mensaje = document.getElementById('mensajeConfirmacion');
       mensaje.style.display = 'block';
 
       // Limpiar formulario y firma
@@ -101,9 +111,10 @@
       signaturePad.clear();
       setRegistro();
 
-      // Ocultar mensaje después de 3 segundos
+      // Ocultar mensaje y cerrar app después de 3 segundos
       setTimeout(() => {
         mensaje.style.display = 'none';
+        window.close(); // Cierra la ventana/app en navegadores que lo permitan
       }, 3000);
     });
   </script>
